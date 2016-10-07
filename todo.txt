@@ -1,3 +1,0 @@
-- promises in routes
-- strip out underscore
-- strip out express

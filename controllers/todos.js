@@ -1,107 +1,59 @@
-var _ = require('underscore');
+'use strict';
 
 module.exports = function(todos) {
+
+  var getItem = (id) => new Promise((done, err) => {
+    if (!id) err({ code: 500, msg: 'And ID was not supplied' });
+    let item = todos.find((i) => i.id === parseInt(id, 10));
+    if (!item) err({ code: 404, msg: 'Could not find an item with that ID' });
+    done(item);
+  });
+
+  var createItem = (data) => new Promise((done, err) => {
+    if (!data.description) err({ code: 400, msg: 'Missing parameters' });
+    let id = Math.max.apply(null, todos.map((i) => i.id)) + 1;
+    let item = { id: id, done: data.done || false, description: data.description };
+    todos.push(item);
+    done(item);
+  });
+
   return {
 
     // Gets a list of all the todo items
-    getAll: function(req, res) {
-      try {
-        res.status(200).json(todos);
-      } catch(e) {
-        res.status(500).send('An error occured while attempting to get all of the todo items');
-      }
-    },
+    getAll: (req, res) => res.status(200).json(todos),
 
     // Gets a specific todo item, given a supplied ID
-    getOne: function(req, res) {
-      var statusCode = 200;
-      try {
-        if (!req.params.id) {
-          statusCode = 500;
-          throw 'An ID was not supplied';
-        }
-        var id = parseInt(req.params.id, 10);
-        var todo = _.findWhere(todos, { id: id });
-        if (!todo) {
-          statusCode = 404;
-          throw 'A todo with the given ID was not found';
-        } else {
-          res.status(statusCode).json(todo);
-        }
-      } catch(e) {
-        res.status(statusCode).send(e);
-      }
+    getOne: (req, res) => {
+      getItem(req.params.id)
+        .then((data) => res.status(200).json(data))
+        .catch((e) => res.status(e.code).send(e.msg));
     },
 
     // Create a new todo object and add it to the list
-    create: function(req, res) {
-      var statusCode = 200;
-      try {
-        if (!req.body.description || req.body.description === '') {
-          statusCode = 400;
-          throw 'A valid description must be given';
-        }
-        // get a new ID (would be handled by proepr DB automatically)
-        var id = Math.max.apply(null, _.pluck(todos, 'id')) + 1;
-        var todo = {
-          id: id,
-          done: req.body.done || false,
-          description: req.body.description
-        };
-        todos.push(todo);
-        res.status(statusCode).json(todo);
-      } catch(e) {
-        res.status(statusCode).send(e);
-      }
+    create: (req, res) => {
+      createItem(req.body)
+        .then((data) => res.status(200).json(data))
+        .catch((e) => res.status(e.code).send(e.msg));
     },
 
     // Update a todo, given a supplied ID
-    update: function(req, res) {
-      var statusCode = 200;
-      try {
-        if (!req.params.id) {
-          statusCode = 500;
-          throw 'An ID was not supplied';
-        }
-        var id = parseInt(req.params.id, 10);
-        var todo = _.findWhere(todos, { id: id });
-        if (!todo) {
-          statusCode = 404;
-          throw 'A todo with the given ID was not found';
-        } else {
-          _.map(todos, function(t) {
-            if (t === todo) {
-              todo = _.extendOwn(t, req.body);
-              return todo;
-            }
-          });
-          res.status(statusCode).json(todo);
-        }
-      } catch(e) {
-        res.status(statusCode).send(e);
-      }
+    update: (req, res) => {
+      getItem(req.params.id)
+        .then((data) => {
+          let todo = Object.assign(data, req.body);
+          todos.map((i) => (i === data) ? todo : i);
+          return todo;
+        })
+        .then((data) => res.status(200).json(data))
+        .catch((e) => res.status(e.code).send(e.msg));
     },
 
     // Delete a todo, given a supplied ID
-    delete: function(req, res) {
-      var statusCode = 200;
-      try {
-        if (!req.params.id) {
-          statusCode = 500;
-          throw 'An ID was not supplied';
-        }
-        var id = parseInt(req.params.id, 10);
-        var todo = _.findWhere(todos, { id: id });
-        if (!todo) {
-          statusCode = 404;
-          throw 'A todo with the given ID was not found';
-        } else {
-          todos.splice(todos.indexOf(todo), 1);
-          res.status(statusCode).send(true);
-        }
-      } catch(e) {
-        res.status(statusCode).send(e);
-      }
+    delete: (req, res) => {
+      getItem(req.params.id)
+        .then((data) => todos.splice(todos.indexOf(data), 1))
+        .then(() => res.status(200).send(true))
+        .catch((e) => res.status(e.code).send(e.msg));
     }
 
   };

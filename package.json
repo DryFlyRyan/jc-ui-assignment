@@ -1,0 +1,21 @@
+{
+  "name": "jumpcloud-ui-assignment-layout",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "underscore": "^1.8.3"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.13"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

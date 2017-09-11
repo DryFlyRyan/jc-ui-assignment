@@ -6,7 +6,7 @@ module.exports = function(todos) {
     // Gets a list of all the todo items
     getAll: function(req, res) {
       try {
-        res.status(200).json(todos);
+        res.status(200).json({todos: todos});
       } catch(e) {
         res.status(500).send('An error occured while attempting to get all of the todo items');
       }

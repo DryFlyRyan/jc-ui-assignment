@@ -4,6 +4,13 @@ var
   app = express(),
   PORT = 3004;
 
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
+
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 
@@ -23,5 +30,4 @@ app.put('/api/todos/:id', controllers.todos.update);
 app.delete('/api/todos/:id', controllers.todos.delete);
 
 app.listen(PORT, function() {
-  console.log('Server started on port ' + PORT);
 });

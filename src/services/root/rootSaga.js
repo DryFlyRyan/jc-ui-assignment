@@ -3,7 +3,7 @@
  * 
  * Probably still overkill for this little thing. But this will make it easy
  * to add new stuff to the todo list should we want to add auth, user details,
- * recipes, a myspace/geocities combo, tinder for dog breeders, etc.
+ * recipes, a myspace/geocities combo, tinder for mennonites, etc.
  */
 
 

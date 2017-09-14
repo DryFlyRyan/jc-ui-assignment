@@ -1,7 +1,6 @@
 import {
   FETCH_ALL,
   CREATE,
-  TOGGLE_TODO,
   UPDATE,
   DELETE
 } from '../actionTypes';

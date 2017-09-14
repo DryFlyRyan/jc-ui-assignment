@@ -7,10 +7,9 @@
 import {
   FETCH_SUCCESS,
   FETCH_ALL_SUCCESS,
-  TOGGLE_TODO_SUCCESS,
   DELETE_SUCCESS,
-  UPDATE_SUCCESS,
-  CHECK_REDUX
+  UPDATE_SUCCESS
+
 } from '../actionTypes';
 
 const initialState = {

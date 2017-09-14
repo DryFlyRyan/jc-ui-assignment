@@ -1,7 +1,3 @@
-
-
-
-
 import rootAPI from '../root/rootApi';
 
 export class TodoApi {

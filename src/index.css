@@ -1,14 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Patrick+Hand');
 
-@import url('https://fonts.googleapis.com/css?family=Homemade+Apple|Walter+Turncoat');
-
-@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
-
-@import url('https://fonts.googleapis.com/css?family=Patua+One');
+@import url('https://fonts.googleapis.com/css?family=Walter+Turncoat');
 
 body {
   margin: 0;
   padding: 0;
+  height: 100vh;
   color: #333;
   font-family: 'Walter Turncoat', cursive;
+  background-image: url('./img/plywood.jpg'); 
 }

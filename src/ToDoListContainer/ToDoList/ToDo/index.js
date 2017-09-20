@@ -79,6 +79,10 @@ class TodoItem extends Component {
   handleFieldChange = (e) => {
     const { value } = e.target;
 
+    if (value.length > 45) {
+      return;
+    }
+
     if (!this.state.fieldChanged) {
       this.setState({
         fieldValue: value,

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Grid, Col } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import PaperTexture1 from '../../img/grey-paper-texture.jpg'
 import ToDo from './ToDo';
 

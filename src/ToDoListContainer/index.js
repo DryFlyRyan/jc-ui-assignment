@@ -1,4 +1,3 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import { 
   getAllTodos, 
@@ -9,7 +8,6 @@ import {
 } from '../services/todo/actions'
 
 import ToDoList from './ToDoList'
-import ToDoItem from './ToDoList/ToDo'
 
 const mapStateToProps = state => {
   return {

@@ -1,12 +1,8 @@
 
 
-import { takeEvery, put, select } from 'redux-saga/effects';
+import { takeEvery, takeLatest, put } from 'redux-saga/effects';
 import Api from './api';
 import {
-  FETCH,
-  FETCH_SUCCESS,
-  FETCH_FAILURE,
-
   FETCH_ALL,
   FETCH_ALL_SUCCESS,
   FETCH_ALL_FAILURE,
@@ -15,11 +11,9 @@ import {
   CREATE_SUCCESS,
   CREATE_FAILURE,
 
-  TOGGLE_TODO,
-  TOGGLE_TODO_SUCCESS,
-
   DELETE,
   DELETE_SUCCESS,
+  DELETE_FAILURE,
 
   UPDATE,
   UPDATE_SUCCESS,
@@ -51,10 +45,16 @@ export const createTodo = function*(action) {
     const response = yield responseHandler(Api.createTodo, action.payload);
     const todo = yield response;
     yield put({
-      type: FETCH_ALL
+      type: CREATE_SUCCESS,
+      payload: {
+        todo: todo
+      }
     })
   } catch (error) {
-    
+    yield put({
+      type: CREATE_FAILURE,
+      error: error
+    })
   }
 }
 
@@ -70,25 +70,34 @@ export const updateTodo = function*(action) {
     })
   }
   catch (error) {
-
+    yield put({
+      type: UPDATE_FAILURE,
+      error: error
+    })
   }
 }
 
 export const deleteTodo = function*(action) {
   try{
-    const response = yield responseHandler(Api.deleteTodo, action.payload.id);
+    yield responseHandler(Api.deleteTodo, action.payload.id);
     yield put({
-      type: FETCH_ALL
+      type: DELETE_SUCCESS,
+      payload: {
+        id: action.payload.id
+      } 
     })
   }
   catch (error) {
-
+    yield put({
+      type: DELETE_FAILURE,
+      error: error
+    })
   }
 }
 
 export const todoSagas = [
   takeEvery(FETCH_ALL, getAllTodos),
-  takeEvery(CREATE, createTodo),
-  takeEvery(UPDATE, updateTodo),
-  takeEvery(DELETE, deleteTodo)
+  takeLatest(CREATE, createTodo),
+  takeLatest(UPDATE, updateTodo),
+  takeLatest(DELETE, deleteTodo)
 ];

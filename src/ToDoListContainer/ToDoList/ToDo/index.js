@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Col, FormControl } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
 
 const FontAwesome = styled.a`
   text-decoration: none;
@@ -79,8 +79,6 @@ class TodoItem extends Component {
   handleFieldChange = (e) => {
     const { value } = e.target;
 
-    console.log(this.state)
-    
     if (!this.state.fieldChanged) {
       this.setState({
         fieldValue: value,

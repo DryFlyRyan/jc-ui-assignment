@@ -11,7 +11,7 @@
  * Plus, generator functions are pretty cool.
  */
 
-import { call, put } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
 
 const responseHandler = function*(fn, ...rest) {
   const response = yield call(fn, ...rest);

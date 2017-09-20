@@ -7,5 +7,11 @@ body {
   height: 100vh;
   color: #333;
   font-family: 'Walter Turncoat', cursive;
-  background-image: url('./img/plywood.jpg'); 
+  background-image: url('./img/plywood.png');
+  background-size: cover;
+}
+
+body::after{
+  position:absolute; width:0; height:0; overflow:hidden; z-index:-1;
+  content:url('./img/plywood.png');
 }
